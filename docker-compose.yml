@@ -1,0 +1,44 @@
+
+version: '3.8'
+services:
+  database-postgres:
+    image: postgres:15-alpine
+    container_name: database-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: db
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  database-mongodb:
+    image: mongo:6.0
+    container_name: database-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: db
+      MONGO_INITDB_ROOT_PASSWORD: db
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongodb:/data/db
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    container_name: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - 5672:5672
+      - 15672:15672
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis:/data
